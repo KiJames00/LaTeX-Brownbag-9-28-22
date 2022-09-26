@@ -1,0 +1,711 @@
+% This is a necessary component to create a document. Note that I'll be using 12pt font, but other sizes are possible. 
+\documentclass[12pt]{article}
+
+% The pstricks-jtree suite is a powerful set of tools that, among other things, allow us to create trees, draw arrows, etc. 
+\usepackage{pstricks}
+\usepackage{pst-xkey}
+\usepackage{pst-jtree}
+\usepackage{hhline}
+\usepackage{xkeyval}
+
+
+% This allows you to make text appear in different colors. 
+\usepackage{xcolor}
+
+% This is a very useful package that lets you remove large blocks of the document without outright deleting them. 
+\usepackage{comment}
+
+% This allows you to adjust margins. This is particularly important if you change the font size. 
+\usepackage{soul}
+
+% This allows you to write in IPA. For documentation, simply google "tipa cheat sheet."
+\usepackage{tipa}
+
+% This allows you to insert multiple columns easily. This is particularly useful for juxtaposing diagrams side by side.
+\usepackage{multicol}
+
+% This adds cute characters, not particularly necessary but it comes in handy for tableaux
+\usepackage{bbding}
+
+% This allows us to insert glosses easily
+\usepackage{gb4e}
+
+% This allows us to make matrices
+\usepackage{amsmath}
+
+% I have no memory what this does
+\usepackage[bookmarks]{hyperref}
+
+%\usepackage[cleanup={},pspdf={-dALLOWPSTRANSPARENCY -dNOSAFER}]{auto-pst-pdf}
+
+% Margins 
+% Commented out for more vanilla experience 
+
+\begin{comment}
+	\addtolength{\oddsidemargin}{-.5in}
+	\addtolength{\evensidemargin}{-.5in}
+	\addtolength{\textwidth}{1in}
+
+	\addtolength{\topmargin}{-.5in}
+	\addtolength{\textheight}{1in}
+\end{comment}
+
+%The title is a necessary component to successfully run the document. The date will always appear, but by default, will be the current date on your computer. 
+\title{\LaTeX}
+\author{Ki James}
+%This is the date this document was written, but it is left commented out to demonstrate the automatic date selection. 
+%\date{Month Day, 20XX}
+
+\begin{document}
+
+\maketitle
+
+\section{What is \LaTeX}
+% Note that asterisks can be insterted before the curly braces to remove auto numbering
+
+\LaTeX, pronounced \textipa{/latEx/} (or \textipa{/latEk/} if you don't like velar fricatives) is a word processor, much like Microsoft Word or Google Docs. Long ago, in the dark ages of digital writing, a great battle raged between the warriors of What You See Is What You Get (abbreviated to WYSIWYG) and the more traditional markup type setups. While the markup crowd tried their best, they ultimately lost the war. Nowadays, very few people dare to tread far outside the most user friendly of options. 
+
+\par But not you, brave soldier! You're here to learn the dark, forgotten arts. And for good reason - \LaTeX \hspace{.01cm} is particularly well suited for Linguistics. It's capable of things such as:
+
+\begin{itemize}
+	\item Glosses
+	\item Feature Matrices
+	\item Tableaux
+	\item Syntax Trees
+\end{itemize}
+
+All of these things and more will be shown here in this document; however, we should first discuss a few points of philosophy and history. 
+
+\subsection{The Hacker Ethic}
+
+``Hacker" wasn't always a pejorative. In the early days of computing in the 50's and 60's, a group of students at MiT built a community and philosophy around the limited university hardware they were working with. Primarily, this world view related to things like freedom and transparency, and it had a uniquely libertarian streak to it. This makes sense, of course. Academia is (ostensibly) built on transparency, sharing research, and collaborating towards increasingly optimized results. 
+\par This movement didn't grow so much as it festered. It morphed into the open source community, headed by the likes of Richard Stallman. This movement continues into today. If you've ever run into Linux communities, you can know that they're often difficult and particular, but produce some very powerful software. 
+\par Importantly for us, hackers, to whatever extent that term makes sense to use today, grandfathered a number of concepts that still hold sway over not only the open source community, but programmers in general. The most critical of these ideas is the "solved problem." To explain this, here's a excerpt from Neil Stephenson’s 1999 article "command.txt."
+
+\begin{quote}
+Nothing is more disagreeable to the hacker than duplication of effort. The first and most important mental habit that people develop when they learn how to write computer programs is to generalize, generalize, generalize. To make their code as modular and flexible as possible, breaking large problems down into small subroutines that can be used over and over again in different contexts. 
+\end{quote}
+
+With almost no exceptions, somebody out there has tried to solve the same problem as you. Your job is to find where they posted the solution. If you're having a hard time drawing an arrow with JTree, somebody has some code that you can shamelessly steal and reapply to your own work. Additionally, the more problems you solve, the more you can reference your own documents. 
+\par All that to say, I can't and won't be providing examples of how to do everything you could ever want to do, and that's ok. Somebody else already has. 
+
+\subsection{Downloading \LaTeX}
+
+Let's return for a second to Linux. You probably know that Linux is an operating system like Windows. If I want my computer to run on Windows, I go to a Windows store and buy something I can download it off. Linux is not so simple. If you google "Linux download," you'll find a helpful link on linux.org to ``25 popular Linux distributions."
+\par ``Distribution?" You might ask, ``Is that like a version?" Unfortunately, no. Linux is just the kernel (a technical word that I won't get into because it's not relevant), and can't run anything by itself. Different people take this kernel and add their own bits on top of it. This kernel with the fluff gets a name, names you might have heard of: Ubuntu, Mint, even Android. 
+\par It's the same with \LaTeX. By itself, it doesn't constitute ``software" that you can just download and run. You need a \TeX \hspace{.1cm}distribution that supports \LaTeX. This varies from OS to OS, and they probably have different pros and cons. I use MiKTeX, and it works just fine.\footnote{With some adjustments. Details are found at the end in \TeX.} If you're curious about which one you need, this is luckily a solved problem.  
+
+\section{Glosses in \LaTeX}
+
+Glosses are pretty simple. Here's some examples of them. 
+
+\begin{multicols}{2}
+
+\begin{exe}
+  \ex
+  \gll  \textipa{b\t{eI}t} al.\textipa{usta:D} \\
+	house the.professor \\
+  \glt  `(the) house of the professor' \\
+	`the professor's house'
+\end{exe}
+
+\begin{exe}
+  \ex
+  \gll  zahrat \textipa{fa:t}\textsuperscript{\textipa{Q}}\textipa{I}ma \\
+	flower fatima \\
+  \glt  `(the) flower of fatima' \\
+	`fatima's flower'
+\end{exe}
+
+
+\begin{exe}
+  \ex
+  \gll  \textipa{Xafi:f} \textipa{ad:am} \\
+	light the.blood \\
+  \glt  `light of blood' \\
+	(idomatic) `light hearted'
+\end{exe}
+
+\begin{exe}
+  \ex
+  \gll  \textipa{Ibn} \textipa{Qam} \textipa{Pabi:} \\
+	son uncle father.my \\
+  \glt  `the son of the uncle of my dad' \\
+	`my dad's cousin'
+\end{exe}
+
+\end{multicols}
+
+The plugin I use is called gb4e. It comes with some pretty serious drawbacks that I haven't figured out how to solve, namely, it automatically numbers each item. In a syntax context, this makes numbering trees somewhat problematic.  
+
+\section{Feature Matrices}
+
+\LaTeX \hspace{.01cm} is predominantly used by people in the mathematical community, and there's a lot of support for things mathematicians use often. One such example is that of a matrix. For Phonology, our matrices are always one dimensional, so this ends up being pretty simple to do. 
+
+% The dollar signs activate something called "math mode." If something isn't working and you don't know why, it's usually a good idea to throw dollar signs around it and see if it fixes your problem. 
+
+\begin{center}
+\vspace{5mm}
+$ \begin{bmatrix}
+  \textrm{+cons}\\ 
+  \textrm{-voice}\\ 
+  \textrm{-spread}\\ 
+  \textrm{-constr}\\ 
+  \textrm{-cont}\\ 
+  \textrm{-nas}\\ 
+  \textrm{-lat}\\ 
+  \textrm{+cor}\\ 
+  \textrm{+ant}\\ 
+  \textrm{-dist}\\ 
+  \textrm{-round}\\ 
+  \textrm{-high}\\ 
+  \textrm{-low}\\ 
+  \textrm{-tense} 
+\end{bmatrix}$
+\end{center}
+
+% https://www.overleaf.com/learn/latex/Matrices 
+% You could use the curly brace version for phrase structure rules, if you're into that sort of thing
+
+\section{Tableaux}
+
+Natively, there's a very powerful way of creating beautiful tables in \LaTeX. The only change I've made is an additional outline to make them look a little snappier, but you have options
+
+	%Here's a more simple example of a table. Googling "tables in LaTeX" will also yield useful results. 
+	
+\begin{comment}
+\vspace{5mm}
+\begin{center}
+\begin{tabular}{||l|l||}
+    \hhline{|t:==:t|}
+    A & B \\ \hhline{||--||}
+    C & D \\ \hhline{|b:==:b|}
+\end{tabular}
+\end{center}
+\end{comment}
+
+\begin{center}
+\begin{tabular}{ ||lr|c|c|c|| } 
+ \hhline{|t:=====:t|}
+ 			& \textipa{/Xori/} & [+dor, -son][+syl] $\Rightarrow$ [-cont] & *[+dor, -cont] & \textsc{id}[cont] \\
+ \hhline{||-----||}
+ \hhline{||-----||}
+\HandRight		& \textipa{[qori]} &  & * & * \\ 
+ \hhline{||-----||}
+ 			& \textipa{[Xori]} & * &  &  \\ 
+ \hhline{|b:=====:b|}
+\end{tabular}
+\end{center}
+
+This also works for derivation tables!  
+
+\begin{center}
+\begin{tabular}{ |lr|c c c c c c| } 
+ \hline
+ 				& \textsc{ur} 		& \textipa{el1n} 	& \textipa{tS\o l1n} 	& \textipa{kul1n} 	& \textipa{diSlar1n} & \textipa{izlar} 	&\textipa{kad1nlar1n} 	\\
+ \hline 
+ 				& \textsc{dicon} 		& 			&  				&  			& \textipa{diSler1n} & \textipa{izler} 	&				\\ 
+
+ 				& \textsc{monocon} 	& \textipa{elin} 	& \textipa{tS\o lyn} 	 & \textipa{kulun} 	& \textipa{diSlerin} &  			&				\\ 
+ \hline
+ 				& \textsc{sr} 		& \textipa{elin} 	& \textipa{tS\o lyn}		 & \textipa{kulun} 	& \textipa{diSlerin} & \textipa{izler}	& \textipa{kad1nlar1n} 	\\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\section{Syntax Trees}
+
+Syntax Trees are far and away the most complicated of the covered topics. I’m focusing on only the most recurring types of trees I find myself making.  
+
+\subsection{Qtree}
+
+When I first started my forays into making syntax trees, googling "latex syntax trees" led me to a package called "Qtree." I'm here to tell you not to make that mistake. Qtree is a terrible package that is both less usable and less powerful that what I'll be showing off in this document. There are people who swear by it; however, I would caution against touching it. 
+\par If you want, you can try both for yourself. I will not be devoting any time to exploring it here, as I've wasted too much time in that environment to ever want to go back. 
+
+\subsection{jTree}
+
+jTree is a package written by a mysterious man named John Frampton. It is a tremendously powerful tool that will more than service all of your wildest dreams. That being said, it's poorly documented, and there isn't a robust community of jTree-ers running around sharing their code. 
+\par All that I had written about the hacker ethic flies out the window here. I've resolved to remedy this situation as much as possible, and make available the hard lessons I've learned, but assuredly you'll find yourself traversing some dark path, trying desperately to do something that seems simple that you've seen done before (like convergent nodes) and will come up empty handed. 
+\par This isn't to scare you, but to steel your soul for what lies ahead. 
+
+\subsubsection{Frampton's User Guide}
+
+Helpfully, our friend John published a 67 page instructional booklet telling us all the lovely things his application can do. This can easily be found online by searching "latex jtree documentation," and downloaded off of a seemingly random university's webpage.\footnote{It's best not to ask questions}
+\par Unhelpfully, the code he presents does not work. This is for a number of reasons, most frustratingly due to the fact that he seems to have updated the package and not told anybody. It's possible there's another user guide, more updated than the 2006 one I've been working from. I am not aware that such a document exists. 
+
+\begin{comment}
+
+Let's look at an example here in the code!
+
+In Chung's excellent work "The Design of Agreement," she wanted a quick, snappy way to demonstrate the difference between successive cyclic movement and one-fell-swoop movement. John gives us the code for these two diagrams as follows. 
+
+\jtree
+\! = {CP}
+<left>@A1 ˆ<tri>[triratio=.65]{CP}\@1
+<left>@A2 ˆ<tri>[triratio=.65]{CP}
+<tri>{\it wh}@A3 .
+\psset{angleB=-90,arrows=->}
+\nccurve[angleA=190,ncurv=1.3]{A3}{A2}
+\nccurve[angleA=160]{A2}{A1}
+\endjtree
+
+\jtree
+\! = {CP}
+<left>@A1 ˆ<tri>[triratio=.65]{CP}
+<tri>[triratio=.65]{CP}
+<tri>{\it wh}@A3 .
+\nccurve[angleA=190,angleB=-90,ncurv=1.3]{->}{A3}{A1}
+\endjtree
+
+You can try running these in a seperate tab, they won't work.
+
+One reason is because, confoundingly, the carrot ^ is using some bizarre non-carrot character. Problem solved, then, right? We just fix that and bada-bing bada-boom, the whole work works - right!?
+
+Still no! It works for reason I don't actually know.
+
+What we can see, though, is what the code is attempting to do.
+
+The carrot is an operator which tosses our program back up a node. Essentially what John is doing here is creating a triangle, then tossing himself up a level, then creating a branch directly on top of the triangle, then working from that parallel  branch. 
+
+This is frankly brilliant, and can be emulated with the following code. 
+
+\begin{multicols}{2}
+
+\begin{center}
+\jtree
+\! = {CP}!CP1 .
+\!CP1 = <left>@A1 ^<tri>[triratio=.65]{CP}!CP2 .
+\!CP2 = <left>@A2 ^<tri>[triratio=.65]{CP}!CP3 .
+\!CP3 = <tri>{\textsc{wh}}@A3 .
+\psset{angleB=-90,arrows=->}
+\nccurve[angleA=190,ncurv=1.3]{A3}{A2}
+\nccurve[angleA=160]{A2}{A1}
+\endjtree
+\end{center}
+
+\begin{center}
+\jtree
+\! = {CP}!CP1 .
+\!CP1 = <left>@A1 ^<tri>[triratio=.65]{CP}!CP2 .
+\!CP2 = <left>@A2 ^<tri>[triratio=.65]{CP}!CP3 .
+\!CP3 = <tri>{\textsc{wh}}@A3 .
+\psset{angleB=-90,arrows=->}
+\nccurve[angleA=190,ncurv=1.3]{A3}{A1}
+\endjtree
+\end{center}
+
+\end{multicols}
+
+\end{comment}
+
+\par More important than any individual piece of code the manual shows is the type of logic it demonstrates. As you continue to make trees, just consult the cursed text as needed. As you work your way through the problems, you'll begin to develop your own style and conventions. 
+
+\subsubsection{Basic Trees}
+
+Let's start by keeping things very simple - a tree with just two branches. These are great for demonstrating allophonic relationships in Phonology. 
+
+\begin{multicols}{2}
+
+\begin{center}
+\jtree
+\! = {/x/}!a .
+\!a = :{[x]}({elsewhere}) {[k]}({\_V}) .
+\endjtree
+\end{center}
+
+%I've somewhat lazily named my branches here. This isn't a problem for very small trees. 
+
+\begin{center}
+\jtree
+\! = {\textipa{/X/}}!a .
+\!a = :{\textipa{[X]}}({elsewhere}) {[q]}({\_V}) .
+\endjtree
+\end{center}
+
+\end{multicols}
+
+We can also use triangles to simplify what would otherwise be a very complicated tree. 
+
+\vspace{5mm}
+\jtree
+\! = {TP} :[scaleby=3 1]{TP}!tp [scaleby=3 1]{CP}!cp . 
+\!tp = <vartri>[triratio=.3]{Harvey will feed the pigs}. 
+\!cp = <vartri>[triratio=.3]{if there is enough time}.
+\endjtree
+
+\subsubsection{Slightly More Complicated Trees}
+When we get into Syntax or Semantics, we're unlikely to encounter something as simple as we see above. Instead, we're more likely to see something like this, which is really just the same thing with more nodes. 
+
+\begin{center}
+\jtree
+\! = {a}!a .
+\!a = :[scaleby=4 1]{b}!b [scaleby=3 1]{c}
+	<wideleft>[scaleby=2 1]{d}!d ^<right>{e}!e ^<wideright>[scaleby=1.5 1]{f}!f .
+\!b = {$\exists x$} .
+\!d = :[scaleby=2 1]{g}!g [scaleby=2 1]{h}!h .
+\!g = {KID$(x)$} .
+\!h = {HIGHSCHOOLER$(x)$} .
+\!e = {$\&$} .
+\!f = :{i}!i [scaleby=1.5 1]{j} 
+	<left>[scaleby=1.5 1]{k}!k ^<vert>{l}!l ^<right>[scaleby=1.5 1]{m}!m .
+\!i = {$\forall x$} .
+\!k = {PRIZE$(y)$} .
+\!l = {$\rightarrow$} .
+\!m = {WIN$(x, y)$} .
+\endjtree
+\end{center}
+
+\vspace{5mm}
+\begin{center}
+\jtree
+\! = {CP}!CP .
+\!CP = :{} {C$'$}!Cbar .
+\!Cbar = :{C} {TP}!TP1 .
+\!TP1 = :{DP} {T$'$}!Tbar . 
+\!Tbar = :{T} {VP}!VP1 .
+\!VP1 = <shortvert>{V$'$}!Vbar1 .
+\!Vbar1 = :{V} {} .
+\endjtree
+\end{center}
+
+\subsubsection{Arrows}
+
+Arrows are when things start to get more complicated. One great way of drawing arrows is to use ``nccurve.” It's a very clunky, cantankerous function, so treat it with caution. 
+
+\jtree
+\! = {CP}!CP1 .
+\!CP1 = <left>{CP}@A ^:{CP}!CP2 [scaleby=5 1]{C$'$}!Cbar1 .
+\!Cbar1 = :{C}({$\emptyset$}) [scaleby=2 1]{TP}!TP1 .
+\!TP1 = :{DP}!DP1 [scaleby=2.5 1]{T$'$}!Tbar1 . 
+\!DP1 = <shortvert>{D$'$} :{D}({$\emptyset$}) {NP}!NP1 .
+\!NP1 = <shortvert>{N$'$}<shortvert>{N}({Harvey}) . 
+\!Tbar1 = :{T}({will}) [scaleby=2 1]{VP}!VP1 .
+\!VP1 = :{VP}!VP2 {\textit{t}}@B .
+\!VP2 = <shortvert>{V$'$} :{V}({feed}) {DP}!DP2 .
+\!DP2 = <shortvert>{D$'$} :{D}({the}) {NP}!NP2 .
+\!NP2 = <shortvert>{N$'$}<shortvert>{N}({pigs}) . 
+\!CP2 = <shortvert>{C$'$} :{C}({if}) {TP}!TP2 .
+\!TP2 = :{DP}!DP3 {T$'$}!Tbar2 .
+\!DP3 = <shortvert>{D$'$}<shortvert>{D}({there$_{exp}$}) .
+\!Tbar2 = :{T}({$\emptyset$}) {VP}!VP3 . 
+\!VP3 = <shortvert>{V$'$} :{V}({is}) {DP}!DP4 . 
+\!DP4 = <shortvert>{D$'$} :{D}({enough}) {NP}!NP4 .
+\!NP4 = <shortvert>{N$'$}<shortvert>{N}({time}) . 
+\nccurve[angleA=-55,angleB=-140,ncurv=2.5]{->}{B}{A}
+\endjtree
+
+\begin{comment}
+
+There are basically two ways of marking a location to be the origin or end point of an arrow. With this method, you mark terminal nodes with an @, then call them in a function later down the line. This has severe drawbacks. 
+
+In this case, I used our previous Chung trick to made a dummy node that the rest of the tree gets layered on top of. This is a particularly complex case of using the terminal node marking method, hence its display.
+
+I’ll also point out that this is outside the conventions I normally like to use. I'm usually very node happy, but I tried to be more efficient (in terms of lines used) to demonstrate alternative valid ways of constructing these trees. 
+
+\end{comment}
+
+\vspace{10mm}
+Alternatively, we could use ``ncbar” and draw a straight line. This are less pretty, but can be useful if you don't want to bother with getting the angles right on a curve. 
+
+\begin{center}
+\vspace{5mm}
+\jtree
+\! = {TopP}!TopP1 .
+\!TopP1 = :{PP}!PP1 [scaleby=3 1]{Top$'$}!TopBar .
+\!TopBar = :{Topic} {CP}!CP .
+\!CP = <shortvert>{C$'$}!Cbar .
+\!Cbar = :{C} {TP}!TP1 .
+\!TP1 = :{DP}!DP1 [scaleby=2 1]{T$'$}!Tbar . 
+\!Tbar = :{T}({Past}) [scaleby=2 1]{VP}!VPAdj .
+\!VPAdj = :{VP}!VP1 [scaleby=2 1]{\rnode{A3}{PP}}!PP2 .
+\!VP1 = <shortvert>{V$'$}!Vbar1 .
+\!Vbar1 = :{V}({planted}) {DP}!DP2 .
+\!DP1 = <shortvert>{D$'$}!Dbar1 .
+\!Dbar1 = :{D} {NP}!NP1 .
+\!NP1 = <shortvert>{N$'$}<shortvert>{N}({Ian}) .
+\!DP2 = <shortvert>{D$'$}!Dbar2 .
+\!Dbar2 = :{D}({some}) {NP}!NP2 .
+\!NP2 = <shortvert>{N$'$}<shortvert>{N}({roses}) .
+\!PP1 = <vartri>[triratio=.5]{\rnode{A4}{in those flowerpots}} .
+\endjtree
+\psset{linearc=3pt} 
+\ncbar[angle=-90, arm=15]{->}{A3}{A4} 
+\end{center}
+
+\begin{comment}
+
+Of critical note here is the different way I marked the nodes. In this case, I'm bracing specific strings of words. This is very useful in many circumstances, and is generally more flexible than the node marking. 
+
+\end{comment}
+
+\par One additional point about arrows is that the function works on a sentence just as well as it does a tree. 
+
+\begin{exe}
+  \ex \rnode{B2}{Who}_{\alpha} did Sally think that Mary said that John stabbed \rnode{B1}{\underline{\hspace{1cm}}}_{\beta}
+\end{exe}
+\psset{linearc=3pt} 
+\ncbar[angle=-90, arm=1]{->}{B1}{B2} 
+
+
+\begin{comment}
+
+To run jtree, you need to update a setting.
+
+To do this, navigate first to %AppData%. 
+
+Go to this directory 
+
+\AppData\Local\Programs\MiKTeX\dvipdfmx\config
+
+Make sure dvipdfmx-unsafe.cfg has the following features
+
+D  "rungs -q -dALLOWPSTRANSPARENCY -dNOSAFER -dNOPAUSE -dBATCH -dEPSCrop -sPAPERSIZE=a0 -sDEVICE=pdfwrite -dCompatibilityLevel=%v -dAutoFilterGrayImages=false -dGrayImageFilter=/FlateEncode -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -dAutoRotatePages=/None -sOutputFile='%o' '%i' -c quit"
+
+Particularly important is -dNOSAFER.
+
+Next. open a command line, and paste the following command
+
+--edit-config-file dvipdfmx
+
+A text file should appear. Paste the following text in it. Following this, you should be able to make trees without strange errors flying, and without it taking ages. 
+
+%% dvipdfmx.cfg: MiKTeX-dvipdfmx configuration file
+%%
+%% Derived from:
+%% $Id: dvipdfmx.cfg 61101 2021-11-20 23:01:11Z karl $
+%% dvipdfmx.cfg for dvipdfmx and xdvipdfmx.  (Public domain.)
+%% (maintained in TeX Live /source/ tree, copied to Master.)
+%% 
+%% DO NOT EDIT THIS FILE DIRECTLY! It will be overwritten.
+%%
+%% Run
+%%
+%%   initexmf --edit-config-file dvipdfmx
+%%
+%% to edit Dvipdfmx configuration parameters.
+
+%% PDF Version Setting
+%%
+%% PDF (minor) version stamp to use in output file.
+%% This also implies maximal version of PDF file allowed to be included.
+%% Dvipdfmx does not support 1.0, 1.1, 1.2 since TrueType font embedded
+%% as CIDFontType2 requires at least version 1.3. Transparent imaging
+%% model requires version 1.4. So if you want soft-masking support for
+%% PNG image with alpha channels, you should set version to 4 or higher.
+%% PDF 1.5 enables object compression.
+
+V  5
+
+%% Dvipdfmx Compatibility Flags
+%%
+%%   0x0002  Use semi-transparent filling for tpic shading command,
+%%           instead of opaque gray color. (requires PDF 1.4)
+%%   0x0004  Treat all CIDFont as fixed-pitch font.
+%%           This is only for backward compatibility. Don't use that.
+%%   0x0008  Do not replace duplicate fontmap entries.
+%%           Dvipdfm's (not 'x') behaviour.
+%%   0x0010  Do not optimize PDF destinations. Use this if you want to
+%%           refer from other files to destinations in the current file.
+
+%C  0x0000
+
+%% PDF Document Settings
+%%
+%% Papersize Option:
+%%
+%%   p papersize-spec
+%%
+%% papersize-spec is 'paper-format' or length-pair, e.g., 'a4', 'letter',
+%% '20cm,30cm'. Recognized unit is 'cm', 'mm', 'bp', 'pt', 'in'.
+
+p  a4
+
+%% Annotation Box Margin:
+%%
+%%   g length
+%%
+%% Add margin to annotation rectangle created via various \specials. Many
+%% TeX macro packages set the annotation bounding box equal to the TeX box
+%% that encloses the material. That's not always what you want.
+%% Annotations created by pdf:bannot/pdf:eannot is also affected.
+
+%g  0
+
+%% Bookmark Open Level:
+%%
+%%   O integer
+%%
+%% Mark bookmark (outline) item as initial state 'open' if the depth
+%% of that item (from root node) is less than or equal to the integer
+%% specified with this option.
+
+O  0
+
+%% PDF Security (Encryption) Setting
+%%
+%% Those options won't take effects unless you use flag 'S'.
+%%
+%% Key bits for PDF encryption (40 - 128)
+
+K  40
+
+%% Permission flag for PDF encryption: Revision will be 3 if the key size
+%% is greater than 40 bits.
+%%
+%% 0x0004 (Revision 2) Print the document.
+%%        (Revision 3) Print the document (possibly not at the highest quality
+%%        level, depending on whether bit 12[0x0800] is also set).
+%% 0x0008 Modify the contents of the document by operations other than those
+%%        controlled by bits 6[0x0020], 9[0x0100], and 11[0x0400].
+%% 0x0010 (Revision 2) Copy or otherwise extract text and graphics from the
+%%        document, including extracting text and graphics (in support of
+%%        accessibility to disabled users or for other purposes).
+%%        (Revision 3) Copy or otherwise extract text and grphics from the
+%%        document by operations other than that controlled by bit 10[0x0200].
+%% 0x0020 Add or modify text annotations, fill in interactive form fields,
+%%        and, if bit 4[0x0008] is also set, create or modify interactive
+%%        form fields (including signature fields).
+%%
+%% (Revision 3 only)
+%% 0x0100 Fill in existing interactive form fields (including signature
+%%        fields), even if bit 6 is clear.
+%% 0x0200 Extract text and graphics (in support of accessibility to disabled
+%%        users or for other purposes).
+%% 0x0400 Assemble the document (insert, rotate, or delete pages and create
+%%        bookmarks or thumbnail images), even if bit 4 is clear.
+%% 0x0800 Print the document to a representation from which a faithful digital
+%%        copy of the PDF content could be generated. When this bit is clear
+%%        (and bit 3 is set), printing is limited to a low-level representation
+%%        of the appearance, possibly of degraded quality.
+
+P  0x003C
+
+%% Image Handler
+%%
+%% With 'D' option dvipdfmx may invoke shell command via system()
+%% function call.
+%%
+%% Command-line template for a-to-b conversion:
+%%
+%% Supported target format ('b') is currently PDF.
+%% Percent sign '%' is special character:
+%%
+%%   %i  Input file name (FQPN). Name of file to be converted to PDF.
+%%   %o  Output file name (FQPN). Temporary file to store conversion
+%%       result. Removed after inclusion is finished. (regardless of
+%%       success or failure)
+%%   %b  The "base" name of the input file, e.g., "foo" instead of
+%%       "foo.eps".
+%%   %v  The PDF version to be converted to, e.g. "1.4" for PDF 1.4.
+%%   %%  Replaced with single '%'.
+
+%% Ghostscript (PS-to-PDF and PDF-to-PDF):
+%%
+%% In TeX Live, we use the rungs wrapper instead of ps2pdf, in order to
+%% use our own supplied gs on Windows.
+%% 
+%% Without the -dEPSCROP below, an eps file with negative llx/lly (as
+%% created by MetaPost, for example) fails.  In 2013, changes were made
+%% to the drivers xetex.def, dvipdfmx.def, etc., to handle non-zero
+%% llx/lly so we could use it.  The file epsf-dvipdfmx.tex is available
+%% from CTAN/TL/etc. to support plain's epsf.tex.
+%% 
+%% In 2014, we discovered that -sPAPERSIZE=a0 was needed to support
+%% pstricks under xetex; otherwise, images were cropped (see thread at
+%% https://tug.org/pipermail/xetex/2014-November/025664.html).
+%% Happily, it seems that using both -dEPSCROP and -sPAPERSIZE=a0
+%% simultaneously works ok.  So that's we do below.
+%% 
+%% By default, gs encodes all images contained in a PS file using
+%% the lossy DCT (i.e., JPEG) filter. This can lead to inferior
+%% result (see the discussion at http://electron.mit.edu/~gsteele/pdf/).
+%% The "-dAutoFilterXXXImages" and "-dXXXImageFilter" options used
+%% below force all images to be encoded with the lossless Flate (zlib,
+%% same as PNG) filter. Note that if the PS file already contains DCT
+%% encoded images (which is possible in PS level 2), then these images
+%% will also be re-encoded using Flate. To turn the conversion off,
+%% remove the options mentioned above.
+%% 
+%% Incidentally, more than one dvipdfmx.cfg may exist.
+%% You can find the one that is active by running:
+%%   kpsewhich -progname=dvipdfmx -format=othertext dvipdfmx.cfg
+%% and control which one is found by setting DVIPDFMXINPUTS.
+%%
+%D  "rungs -q -dALLOWPSTRANSPARENCY -dNOSAFER -dNOPAUSE -dBATCH -dEPSCrop -sPAPERSIZE=a0 -sDEVICE=pdfwrite -dCompatibilityLevel=%v -dAutoFilterGrayImages=false -dGrayImageFilter=/FlateEncode -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -dAutoRotatePages=/None -sOutputFile='%o' '%i' -c quit"
+%% If you change the above rungs invocation, also change dvipdfmx-unsafe.cfg!
+
+% other random ps converters people have experimented with.
+%D "/usr/local/bin/ps2pdf -dEPSCrop '%i' '%o'"
+%D "/usr/texbin/epstopdf '%i' -o '%o'"
+%D "/usr/bin/pstopdf '%i' -o '%o'"
+%
+%% Frank Siegert's PStill:
+%D  "/usr/local/bin/pstill -c -o '%o' '%i'"
+%
+%% Batik + Fop (SVG-to-PDF):
+%% If you want both PS and SVG, you need to write a script or program
+%% that selectively invokes converters.
+%D  "java -classpath classpaths -jar /path/to/batik-rasterizer.jar -m application/pdf -d '%o' '%i'"
+%
+%% There are no way to directly know suggested size of (raster) images.
+%% You may want to use %b here, since you can try reading the ebb file
+%% to see what is natural (physical) size of images. 
+%D  "ras2pdf -r 300x300 -b '%b.bb' -o '%o' '%i'"
+%
+%% ImageMagick:
+%% Easiest way to support various file formats.
+%D  "convert '%i' 'epdf:%o'"
+
+%% Use MiKTeX Ghostscript:
+D  "mgs.exe -q -dNOSAFER -dNOPAUSE -dBATCH -dEPSCrop -sPAPERSIZE=a0 -sDEVICE=pdfwrite -dCompatibilityLevel=%v -dAutoFilterGrayImages=false -dGrayImageFilter=/FlateEncode -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -dAutoRotatePages=/None -sOutputFile=\"%o\" \"%i\" -c quit"
+
+%% Other Options
+%%
+%% DPI for PK font creation
+
+%r  600
+
+%% Set number of fractional digit kept for various numbers in PDF page
+%% content output. By setting this to 2 (default), dvipdfmx rounds
+%% real numbers at 2nd fractional (decimal) digit; e.g., "3.14159" is
+%% written as "3.14". Increasing this to more than 2 isn't meaningful
+%% for old Acrobat due to implementation limit of Acrobat.
+%% Length 0.01 in unscaled coordinate system amount to width of 1 pixel
+%% in 7200ppi display. 
+
+%d  5
+
+%% Image cache life in hours
+%%  0 means erase all old images and leave new images
+%% -1 means erase all old images and also erase new images
+%% -2 means ignore image cache
+%I -2
+
+%% Font Map Files
+%%
+%% teTeX 2.x and TeX Live using updmap (pdfTeX format)
+f  pdftex.map
+
+%% teTeX 2.x and TeX Live using updmap (DVIPDFM format)
+%f dvipdfm.map
+
+%% teTeX 2.x and TeX Live using updmap (DVIPS format)
+%% MiKTeX 2.2 and 2.3
+%f psfonts.map
+
+%% Put additional fontmap files here (usually for Type0 fonts)
+%f  cid-x.map
+
+% the following file is generated by updmap(-sys) from the 
+% KanjiMap entries in the updmap.cfg file.
+f kanjix.map
+% minimal example for Chinese and Korean users
+% improvements please to tex-live@tug.org
+f ckx.map
+
+%% Include other config files
+%i <filename>
+
+\end{comment}
+
+\end{document}
